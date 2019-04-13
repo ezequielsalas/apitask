@@ -6,7 +6,7 @@ from api.models import Book
 class BookSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Book
-        #fields = ('url', 'username', 'email', 'groups')
+        fields = ('id','name', 'isbn', 'number_of_pages', 'publisher', 'country', 'release_date')
 
 
 

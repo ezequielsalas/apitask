@@ -21,8 +21,8 @@ from rest_framework import routers
 from .views import BookView
 
 
-router = routers.DefaultRouter()
-router.register(r'books', BookView)
+# router = routers.DefaultRouter()
+# router.register(r'books', BookView)
 app_name = "books"
 #
 # urlpatterns = [
@@ -32,4 +32,5 @@ app_name = "books"
 # ]
 urlpatterns = [
     path('books/', BookView.as_view()),
+    path('books/<int:pk>', BookView.as_view()),
 ]
