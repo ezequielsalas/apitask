@@ -16,12 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from django.conf.urls import include
+from django.conf.urls import url, include
+from rest_framework import routers
+from .views import BookView
 
 
-
-
+router = routers.DefaultRouter()
+router.register(r'books', BookView)
+app_name = "books"
+#
+# urlpatterns = [
+#     url(r'^', include(router.urls)),
+#
+#     url(r'^api/v1/', include('rest_framework.urls', namespace='rest_framework')),
+# ]
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/v1/', include('api.urls')),
+    path('books/', BookView.as_view()),
 ]
