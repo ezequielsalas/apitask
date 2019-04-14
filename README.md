@@ -1,6 +1,6 @@
 # apitask
 
-apitask is a Python + Django Project designed and built for managing a local books database and consulting an external books API.
+apitask is a Python 3 + Django Project designed and built for managing a local books database and consulting an external books API.
 
 ## Getting Started
 
