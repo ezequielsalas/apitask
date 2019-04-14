@@ -15,11 +15,8 @@ Including another URLconf
 """
 from django.urls import path
 
-from .views import BookView
-
-app_name = "books"
+from api import views
 
 urlpatterns = [
-    path('books/', BookView.as_view()),
-    path('books/<int:pk>', BookView.as_view()),
+    path('external-books', views.get_book_by_name, name="get_book_by_name"),
 ]

@@ -1,8 +1,10 @@
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
 from rest_framework import status
 
+from api import services
 from api.models import Book
 from api.serializers import BookSerializer
 
@@ -20,7 +22,7 @@ class BookView(APIView):
         except Book.DoesNotExist:
             return None
 
-    def get(self, request,pk=None):
+    def get(self, request, pk=None):
         response = dict()
         response['status_code'] = status.HTTP_200_OK
         response['status'] = 'success'
@@ -96,3 +98,12 @@ class BookView(APIView):
 
         return Response(response)
 
+
+@api_view(['GET'])
+def get_book_by_name(request):
+    response = dict()
+    response['status_code'] = status.HTTP_200_OK
+    response['status'] = 'success'
+
+    response['data'] = services.get_books(request.GET)
+    return Response(response)
