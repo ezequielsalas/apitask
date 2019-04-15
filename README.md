@@ -26,7 +26,7 @@ Install dependencies
 pip install -r requirements.txt
 ```
 
-Run migrations
+Prepare the database
 ```bash
 python manage.py migrate
 ```
