@@ -11,13 +11,11 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class BookSerializer(serializers.HyperlinkedModelSerializer):
-
     authors = AuthorSerializer(many=True)
 
     class Meta:
         model = Book
-        fields = ('id','name', 'isbn',  'authors', 'number_of_pages', 'publisher', 'country', 'release_date')
-
+        fields = ('id', 'name', 'isbn', 'authors', 'number_of_pages', 'publisher', 'country', 'release_date')
 
     def create(self, validated_data):
         author_data = validated_data.pop('authors')

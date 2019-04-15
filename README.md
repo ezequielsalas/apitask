@@ -7,9 +7,9 @@ apitask is a Python 3 + Django Project designed and built for managing a local b
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 
-### Installing
+## Installing
 
-## Clone the project
+### Clone the project
 
 Run, in the CLI:
 ```bash
@@ -24,6 +24,11 @@ cd apitask
 Install dependencies
 ```bash
 pip install -r requirements.txt
+```
+
+Prepare the database
+```bash
+python manage.py migrate
 ```
 
 ## Deployment
