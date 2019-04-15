@@ -50,7 +50,7 @@ class BaseViewTest(APITestCase):
                          publisher="Marvel", country="United States", release_date="2008-06-18")
 
 
-class GetAllBooksTest(BaseViewTest):
+class BooksTest(BaseViewTest):
 
     def test_get_all_books(self):
         """
@@ -66,6 +66,71 @@ class GetAllBooksTest(BaseViewTest):
         expected = Book.objects.all()
         serialized = BookSerializer(expected, many=True)
         self.assertEqual(response.data['data'], serialized.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_book(self):
+        """
+        This test ensures that all books added in the setUp method
+        exist when we make a GET request to the books/ endpoint
+        """
+
+        # authors = [Author.objects.create(name="George R. R. Martin")]
+        authors = [{"name": "George R. R. Martin"}]
+
+        book = {
+            "name": "A Game of Thrones",
+            "isbn": "123-9999999990",
+            "authors": authors,
+            "number_of_pages": 694,
+            "publisher": "Bantam Books",
+            "country": "United States",
+            "release_date": "1996-08-01"
+        }
+
+        # hit the API endpoint
+        response = self.client.post(reverse("books"), book, format='json')
+        # fetch the data from db
+        expected = Book.objects.get(isbn="123-9999999990")
+        serialized = BookSerializer(expected, many=False)
+        self.assertEqual(response.data['data']['book'], serialized.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_update_book(self):
+        """
+        This test ensures that a book is updated when we make a PATCH request to the book/:pk endpoint
+        """
+        expected = Book.objects.get(isbn='978-0553103540')
+
+        expected.name = "A Game of Thrones 2"
+        expected.isbn = "123-9999999990"
+        expected.number_of_pages = 695
+
+        # hit the API endpoint
+        response = self.client.patch(reverse("book", None, [expected.pk]), {
+            "name": expected.name,
+            "isbn": expected.isbn,
+            "number_of_pages": expected.number_of_pages,
+        }, format='json')
+        # fetch the data from db
+        serialized = BookSerializer(expected, many=False)
+        self.assertEqual(response.data['data']['book'], serialized.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_delete_book(self):
+        """
+        This test ensures a deleted book no longer exists
+        when we make a DELETE request to the book/:pk endpoint
+        """
+        expected = Book.objects.get(isbn='978-0553103540')
+
+        # hit the API endpoint
+        response = self.client.delete(reverse("book", None, [expected.pk]))
+
+        # fetch the data from db
+        # serialized = BookSerializer(expected, many=False)
+        with self.assertRaises(Book.DoesNotExist) as ctx:
+            Book.objects.get(pk=expected.pk)
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
