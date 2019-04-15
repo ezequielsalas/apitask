@@ -26,6 +26,11 @@ Install dependencies
 pip install -r requirements.txt
 ```
 
+Prepare the database
+```bash
+python manage.py migrate
+```
+
 ## Deployment
 
 ```bash
